@@ -1,0 +1,1960 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Industria 4.0 | Ingeniería Industrial</title>
+
+    <!-- Librería de gráficas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* ========================================
+           CONFIGURACIÓN GENERAL
+        ======================================== */
+
+        :root {
+            --azul: #071b32;
+            --azul-claro: #123657;
+            --celeste: #00c8ff;
+            --blanco: #ffffff;
+            --gris: #f1f5f9;
+            --texto: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 110px;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--texto);
+            background: white;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        /* ========================================
+           ENCABEZADO Y LOGO
+        ======================================== */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(7, 27, 50, 0.97);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        .navegacion {
+            max-width: 1350px;
+            min-height: 100px;
+            margin: auto;
+            padding: 10px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .logo img {
+            width: 190px;
+            height: 80px;
+            object-fit: contain;
+            display: block;
+        }
+
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+            list-style: none;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--celeste);
+        }
+
+        /* ========================================
+           PORTADA
+        ======================================== */
+
+        .hero {
+            min-height: 650px;
+            display: flex;
+            align-items: center;
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(4,18,34,0.96),
+                    rgba(7,27,50,0.78),
+                    rgba(7,27,50,0.25)
+                ),
+                url("img/portada.png");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-contenido {
+            width: 100%;
+            max-width: 1250px;
+            margin: auto;
+            padding: 80px 30px;
+        }
+
+        .hero-etiqueta {
+            display: inline-block;
+            padding: 7px 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--celeste);
+            border-radius: 30px;
+            color: var(--celeste);
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 {
+            font-size: clamp(55px, 8vw, 100px);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--celeste);
+        }
+
+        .hero h2 {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            max-width: 700px;
+            font-size: 20px;
+            margin-bottom: 35px;
+        }
+
+        .boton {
+            display: inline-block;
+            padding: 14px 28px;
+            background: var(--celeste);
+            color: var(--azul);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .boton:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,200,255,0.3);
+        }
+
+        /* ========================================
+           SECCIONES
+        ======================================== */
+
+        section {
+            padding: 85px 25px;
+        }
+
+        .contenedor {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .titulo-seccion {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .titulo-seccion span {
+            color: #0088b8;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .titulo-seccion h2 {
+            font-size: clamp(30px, 4vw, 42px);
+            color: var(--azul);
+            margin-top: 8px;
+        }
+
+        .titulo-seccion p {
+            max-width: 800px;
+            margin: 15px auto 0;
+        }
+
+        /* ========================================
+           INTRODUCCIÓN
+        ======================================== */
+
+        .introduccion-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .introduccion-texto h2 {
+            color: var(--azul);
+            font-size: 38px;
+            margin-bottom: 25px;
+        }
+
+        .introduccion-texto p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .introduccion-imagen img {
+            width: 100%;
+            border-radius: 20px;
+            display: block;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+        }
+
+        /* ========================================
+           TARJETAS DE TECNOLOGÍAS
+        ======================================== */
+
+        #tecnologias {
+            background: var(--gris);
+        }
+
+        .buscador {
+            max-width: 650px;
+            margin: 0 auto 40px;
+        }
+
+        .buscador input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #dbe7ef;
+            border-radius: 12px;
+            outline: none;
+            background: white;
+        }
+
+        .buscador input:focus {
+            border-color: var(--celeste);
+        }
+
+        .grid-tecnologias {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .tarjeta-tecnologia {
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+            background: white;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            width: 100%;
+            color: inherit;
+        }
+
+        .tarjeta-tecnologia:hover {
+            transform: translateY(-8px);
+        }
+
+        .tarjeta-tecnologia.activa {
+            outline: 3px solid var(--celeste);
+        }
+
+        .tarjeta-tecnologia img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            background: var(--azul);
+        }
+
+        .tarjeta-contenido {
+            padding: 25px;
+        }
+
+        .numero {
+            color: #0088b8;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .tarjeta-contenido h3 {
+            font-size: 22px;
+            color: var(--azul);
+            margin: 8px 0 12px;
+        }
+
+        .tarjeta-contenido p {
+            font-size: 16px;
+        }
+
+        /* ========================================
+           PANEL DE TECNOLOGÍAS
+        ======================================== */
+
+        .detalle {
+            margin-top: 55px;
+            background: var(--azul);
+            color: white;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+        }
+
+        .detalle-cabecera {
+            padding: 30px 35px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .detalle-cabecera span {
+            color: var(--celeste);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .detalle-cabecera h3 {
+            font-size: 32px;
+            margin-top: 5px;
+        }
+
+        .detalle-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .detalle-imagen {
+            min-height: 460px;
+            background: #020c17;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detalle-imagen img {
+            width: 100%;
+            height: 460px;
+            object-fit: contain;
+        }
+
+        .detalle-texto {
+            padding: 40px;
+        }
+
+        .detalle-texto h4 {
+            color: var(--celeste);
+            font-size: 19px;
+            margin: 22px 0 8px;
+        }
+
+        .detalle-texto h4:first-child {
+            margin-top: 0;
+        }
+
+        .detalle-texto p {
+            color: #dce9f3;
+        }
+
+        .controles {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .controles button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 9px;
+            background: var(--celeste);
+            color: var(--azul);
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* ========================================
+           GRÁFICA
+        ======================================== */
+
+        .grafica-contenedor {
+            max-width: 720px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .nota {
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 25px;
+        }
+
+        /* ========================================
+           TABLA
+        ======================================== */
+
+        #evolucion {
+            background: var(--gris);
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: var(--azul);
+            color: white;
+            padding: 18px;
+            text-align: left;
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 1px solid #dbe7ef;
+        }
+
+        tbody tr:hover {
+            background: #e9faff;
+        }
+
+        /* ========================================
+           APLICACIONES INTERACTIVAS
+        ======================================== */
+
+        .grid-aplicaciones {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .aplicacion {
+            display: block;
+            width: 100%;
+            padding: 25px;
+            border: none;
+            border-radius: 20px;
+            text-align: left;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(
+                145deg,
+                var(--azul),
+                var(--azul-claro)
+            );
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            transition: 0.3s;
+        }
+
+        .aplicacion:hover {
+            transform: translateY(-8px);
+        }
+
+        .imagen-aplicacion {
+            width: 100%;
+            height: 190px;
+            object-fit: contain;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 22px;
+            transition: 0.3s;
+        }
+
+        .aplicacion:hover .imagen-aplicacion {
+            transform: scale(1.03);
+        }
+
+        .aplicacion h3 {
+            color: var(--celeste);
+            font-size: 23px;
+            margin-bottom: 15px;
+        }
+
+        .aplicacion p {
+            font-size: 16px;
+        }
+
+        .ver-mas {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--celeste);
+            font-weight: bold;
+        }
+
+        /* ========================================
+           VENTANA INTERACTIVA
+        ======================================== */
+
+        .modal-aplicacion {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0,10,25,0.85);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-aplicacion.abierto {
+            display: flex;
+        }
+
+        .modal-contenido {
+            width: 100%;
+            max-width: 850px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .modal-encabezado {
+            padding: 35px;
+            background: linear-gradient(
+                135deg,
+                var(--azul),
+                var(--azul-claro)
+            );
+            color: white;
+        }
+
+        .modal-encabezado span {
+            color: var(--celeste);
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .modal-encabezado h2 {
+            font-size: 32px;
+            margin-top: 10px;
+            padding-right: 35px;
+        }
+
+        .cerrar-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: var(--celeste);
+            color: var(--azul);
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .modal-cuerpo {
+            padding: 35px;
+        }
+
+        .modal-cuerpo img {
+            display: block;
+            width: 100%;
+            max-height: 290px;
+            object-fit: contain;
+            margin-bottom: 30px;
+        }
+
+        .modal-cuerpo h3 {
+            color: var(--azul);
+            margin: 25px 0 10px;
+            font-size: 22px;
+        }
+
+        .modal-cuerpo p {
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           BENEFICIOS
+        ======================================== */
+
+        #beneficios {
+            background: var(--gris);
+        }
+
+        .dos-columnas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+        }
+
+        .bloque {
+            padding: 35px;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .bloque h3 {
+            font-size: 27px;
+            color: var(--azul);
+            margin-bottom: 20px;
+        }
+
+        .bloque ul {
+            padding-left: 25px;
+        }
+
+        .bloque li {
+            margin-bottom: 12px;
+        }
+
+        /* ========================================
+           CONCLUSIÓN
+        ======================================== */
+
+        .conclusion {
+            text-align: center;
+            color: white;
+            background: linear-gradient(
+                135deg,
+                var(--azul),
+                var(--azul-claro)
+            );
+        }
+
+        .conclusion h2 {
+            font-size: 42px;
+            margin-bottom: 25px;
+        }
+
+        .conclusion p {
+            max-width: 900px;
+            margin: auto;
+            color: #e0edf7;
+        }
+
+        /* ========================================
+           CONTACTO
+        ======================================== */
+
+        #contacto {
+            text-align: center;
+        }
+
+        .contacto-datos {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .contacto-item {
+            min-width: 250px;
+            padding: 22px 30px;
+            border-radius: 15px;
+            background: var(--gris);
+        }
+
+        .contacto-item strong {
+            color: var(--azul);
+        }
+
+        .contacto-item a {
+            color: var(--azul-claro);
+            text-decoration: none;
+        }
+
+        /* ========================================
+           PIE DE PÁGINA
+        ======================================== */
+
+        footer {
+            padding: 50px 20px;
+            background: #03101f;
+            color: white;
+            text-align: center;
+        }
+
+        footer img {
+            width: 220px;
+            max-height: 140px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        footer p {
+            color: #b8c7d5;
+        }
+
+        /* ========================================
+           BOTÓN SUBIR
+        ======================================== */
+
+        .subir {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--celeste);
+            color: var(--azul);
+            text-decoration: none;
+            font-size: 25px;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            z-index: 999;
+        }
+
+        /* ========================================
+           DISEÑO PARA CELULARES
+        ======================================== */
+
+        @media (max-width: 1000px) {
+            .navegacion {
+                flex-direction: column;
+            }
+
+            nav ul {
+                justify-content: center;
+            }
+
+            .introduccion-grid,
+            .detalle-grid,
+            .dos-columnas {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-tecnologias,
+            .grid-aplicaciones {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            section {
+                padding: 65px 18px;
+            }
+
+            .logo img {
+                width: 160px;
+            }
+
+            nav ul {
+                gap: 12px;
+            }
+
+            nav a {
+                font-size: 13px;
+            }
+
+            .grid-tecnologias,
+            .grid-aplicaciones {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 580px;
+            }
+
+            .hero h2 {
+                font-size: 23px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .detalle-cabecera h3 {
+                font-size: 26px;
+            }
+
+            .detalle-imagen {
+                min-height: 330px;
+            }
+
+            .detalle-imagen img {
+                height: 330px;
+            }
+
+            .detalle-texto,
+            .modal-cuerpo {
+                padding: 25px;
+            }
+
+            .modal-encabezado {
+                padding: 25px;
+            }
+
+            .modal-encabezado h2 {
+                font-size: 25px;
+            }
+
+            .controles {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body id="inicio">
+
+    <!-- ========================================
+         ENCABEZADO
+    ======================================== -->
+
+    <header>
+        <div class="navegacion">
+
+            <a href="#inicio" class="logo">
+                <img
+                    src="img/logo-industria-4.png"
+                    alt="Logo Industria 4.0"
+                >
+            </a>
+
+            <nav aria-label="Navegación principal">
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#introduccion">Introducción</a></li>
+                    <li><a href="#tecnologias">Tecnologías</a></li>
+                    <li><a href="#grafica">Gráfica</a></li>
+                    <li><a href="#evolucion">Evolución</a></li>
+                    <li><a href="#aplicaciones">Aplicaciones</a></li>
+                    <li><a href="#beneficios">Beneficios</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- ========================================
+         PORTADA
+    ======================================== -->
+
+    <section class="hero">
+        <div class="hero-contenido">
+
+            <div class="hero-etiqueta">
+                INGENIERÍA INDUSTRIAL
+            </div>
+
+            <h1>
+                INDUSTRIA <span>4.0</span>
+            </h1>
+
+            <h2>
+                Innovación hoy, industria del mañana
+            </h2>
+
+            <p>
+                La transformación digital está cambiando
+                la forma en que las industrias producen,
+                administran y optimizan sus procesos.
+            </p>
+
+            <a href="#introduccion" class="boton">
+                Explorar Industria 4.0
+            </a>
+
+        </div>
+    </section>
+
+    <!-- ========================================
+         INTRODUCCIÓN
+    ======================================== -->
+
+    <section id="introduccion">
+        <div class="contenedor introduccion-grid">
+
+            <div class="introduccion-texto">
+
+                <h2>¿Qué es la Industria 4.0?</h2>
+
+                <p>
+                    La Industria 4.0 representa una nueva
+                    etapa en la evolución de los sistemas
+                    productivos. Se caracteriza por la
+                    integración de tecnologías digitales,
+                    sistemas inteligentes, automatización
+                    y conectividad dentro de los procesos
+                    industriales.
+                </p>
+
+                <p>
+                    Su principal objetivo es desarrollar
+                    fábricas inteligentes capaces de recopilar,
+                    analizar y utilizar información en tiempo
+                    real. Esto permite que máquinas, equipos,
+                    sensores, sistemas informáticos y personas
+                    puedan interactuar de manera más eficiente.
+                </p>
+
+                <p>
+                    Para la Ingeniería Industrial, la Industria
+                    4.0 representa una herramienta fundamental
+                    para mejorar la productividad, reducir
+                    desperdicios, controlar la calidad,
+                    optimizar recursos y facilitar la toma
+                    de decisiones dentro de las organizaciones.
+                </p>
+
+            </div>
+
+            <div class="introduccion-imagen">
+                <img
+                    src="img/portada.png"
+                    alt="Representación de Industria 4.0"
+                >
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================
+         TECNOLOGÍAS
+    ======================================== -->
+
+    <section id="tecnologias">
+        <div class="contenedor">
+
+            <div class="titulo-seccion">
+                <span>Tecnologías principales</span>
+
+                <h2>Los pilares de la Industria 4.0</h2>
+
+                <p>
+                    Selecciona una tecnología para conocer
+                    su funcionamiento, aplicación e importancia
+                    dentro de la industria moderna.
+                </p>
+            </div>
+
+            <div class="buscador">
+                <input
+                    type="search"
+                    id="buscarTecnologia"
+                    placeholder="Buscar tecnología..."
+                    aria-label="Buscar tecnología"
+                >
+            </div>
+
+            <div
+                class="grid-tecnologias"
+                id="contenedorTecnologias">
+            </div>
+
+            <!-- PANEL DE INFORMACIÓN -->
+
+            <div class="detalle" id="detalleTecnologia">
+
+                <div class="detalle-cabecera">
+                    <span id="indicadorTecnologia">
+                        TECNOLOGÍA 01
+                    </span>
+
+                    <h3 id="tituloTecnologia">
+                        Inteligencia Artificial
+                    </h3>
+                </div>
+
+                <div class="detalle-grid">
+
+                    <div class="detalle-imagen">
+                        <img
+                            id="imagenPrincipal"
+                            src="img/inteligencia-artificial.png"
+                            alt="Inteligencia Artificial"
+                        >
+                    </div>
+
+                    <div class="detalle-texto">
+
+                        <h4>Descripción</h4>
+                        <p id="descripcionTecnologia"></p>
+
+                        <h4>Aplicación industrial</h4>
+                        <p id="aplicacionTecnologia"></p>
+
+                        <h4>Importancia</h4>
+                        <p id="importanciaTecnologia"></p>
+
+                        <div class="controles">
+                            <button id="tecnologiaAnterior">
+                                ← Anterior
+                            </button>
+
+                            <button id="tecnologiaSiguiente">
+                                Siguiente →
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================
+         GRÁFICA
+    ======================================== -->
+
+    <section id="grafica">
+        <div class="contenedor">
+
+            <div class="titulo-seccion">
+                <span>Representación gráfica</span>
+
+                <h2>Tecnologías de la Industria 4.0</h2>
+
+                <p>
+                    Representación didáctica de las principales
+                    tecnologías de los sistemas industriales modernos.
+                </p>
+            </div>
+
+            <div class="grafica-contenedor">
+                <canvas id="graficaIndustria"></canvas>
+            </div>
+
+            <p class="nota">
+                * Los porcentajes son ilustrativos y tienen
+                fines académicos. No representan estadísticas oficiales.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- ========================================
+         EVOLUCIÓN INDUSTRIAL
+    ======================================== -->
+
+    <section id="evolucion">
+        <div class="contenedor">
+
+            <div class="titulo-seccion">
+                <span>Evolución industrial</span>
+                <h2>De la Industria 1.0 a la Industria 4.0</h2>
+
+                <p>
+                    Cada revolución industrial ha transformado
+                    los sistemas de producción mediante nuevas tecnologías.
+                </p>
+            </div>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Etapa</th>
+                            <th>Período</th>
+                            <th>Tecnología</th>
+                            <th>Característica principal</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Industria 1.0</td>
+                            <td>Siglo XVIII</td>
+                            <td>Máquina de vapor</td>
+                            <td>
+                                Mecanización de los procesos productivos.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Industria 2.0</td>
+                            <td>Finales del siglo XIX</td>
+                            <td>Electricidad</td>
+                            <td>
+                                Producción en masa y líneas de ensamblaje.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Industria 3.0</td>
+                            <td>Segunda mitad del siglo XX</td>
+                            <td>Electrónica e informática</td>
+                            <td>
+                                Automatización de procesos industriales.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Industria 4.0</td>
+                            <td>Siglo XXI</td>
+                            <td>IA, IoT y sistemas digitales</td>
+                            <td>
+                                Producción inteligente e interconectada.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================
+         APLICACIONES INTERACTIVAS
+    ======================================== -->
+
+    <section id="aplicaciones">
+        <div class="contenedor">
+
+            <div class="titulo-seccion">
+                <span>Aplicaciones industriales</span>
+
+                <h2>Industria 4.0 en acción</h2>
+
+                <p>
+                    Haz clic en cualquiera de las tres aplicaciones
+                    para conocer su funcionamiento, ejemplos y beneficios.
+                </p>
+            </div>
+
+            <div class="grid-aplicaciones">
+
+                <!-- FÁBRICAS INTELIGENTES -->
+
+                <button
+                    type="button"
+                    class="aplicacion"
+                    data-aplicacion="fabricas">
+
+                    <img
+                        src="img/fabricas-inteligentes.png"
+                        alt="Fábricas inteligentes"
+                        class="imagen-aplicacion"
+                    >
+
+                    <h3>Fábricas Inteligentes</h3>
+
+                    <p>
+                        Integran sensores, robots, inteligencia
+                        artificial y sistemas digitales para
+                        controlar y optimizar la producción.
+                    </p>
+
+                    <span class="ver-mas">
+                        Conocer más →
+                    </span>
+
+                </button>
+
+                <!-- LOGÍSTICA INTELIGENTE -->
+
+                <button
+                    type="button"
+                    class="aplicacion"
+                    data-aplicacion="logistica">
+
+                    <img
+                        src="img/logistica-inteligente.png"
+                        alt="Logística inteligente"
+                        class="imagen-aplicacion"
+                    >
+
+                    <h3>Logística Inteligente</h3>
+
+                    <p>
+                        Permite optimizar inventarios, transporte,
+                        almacenamiento y cadenas de suministro
+                        mediante herramientas digitales.
+                    </p>
+
+                    <span class="ver-mas">
+                        Conocer más →
+                    </span>
+
+                </button>
+
+                <!-- MANTENIMIENTO PREDICTIVO -->
+
+                <button
+                    type="button"
+                    class="aplicacion"
+                    data-aplicacion="mantenimiento">
+
+                    <img
+                        src="img/mantenimiento-predictivo.png"
+                        alt="Mantenimiento predictivo"
+                        class="imagen-aplicacion"
+                    >
+
+                    <h3>Mantenimiento Predictivo</h3>
+
+                    <p>
+                        Utiliza sensores y análisis de datos
+                        para anticipar posibles fallas
+                        en los equipos industriales.
+                    </p>
+
+                    <span class="ver-mas">
+                        Conocer más →
+                    </span>
+
+                </button>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         VENTANA INTERACTIVA DE APLICACIONES
+    ======================================== -->
+
+    <div
+        class="modal-aplicacion"
+        id="modalAplicacion"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitulo"
+        aria-hidden="true"
+        inert>
+
+        <div class="modal-contenido">
+
+            <button
+                type="button"
+                class="cerrar-modal"
+                id="cerrarModal"
+                aria-label="Cerrar ventana">
+                &times;
+            </button>
+
+            <div class="modal-encabezado">
+                <span>INDUSTRIA 4.0</span>
+                <h2 id="modalTitulo"></h2>
+            </div>
+
+            <div class="modal-cuerpo">
+
+                <img
+                    id="modalImagen"
+                    src=""
+                    alt=""
+                >
+
+                <h3>¿En qué consiste?</h3>
+                <p id="modalDescripcion"></p>
+
+                <h3>Aplicaciones en Ingeniería Industrial</h3>
+                <p id="modalEjemplos"></p>
+
+                <h3>Beneficios principales</h3>
+                <p id="modalBeneficios"></p>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ========================================
+         BENEFICIOS Y DESAFÍOS
+    ======================================== -->
+
+    <section id="beneficios">
+        <div class="contenedor">
+
+            <div class="titulo-seccion">
+                <span>Impacto industrial</span>
+                <h2>Beneficios y desafíos</h2>
+
+                <p>
+                    La transformación digital ofrece grandes
+                    oportunidades, pero también presenta retos.
+                </p>
+            </div>
+
+            <div class="dos-columnas">
+
+                <div class="bloque">
+                    <h3>✓ Beneficios</h3>
+
+                    <ul>
+                        <li>Incremento de la productividad.</li>
+                        <li>Reducción de costos.</li>
+                        <li>Optimización de recursos.</li>
+                        <li>Mayor control de calidad.</li>
+                        <li>Supervisión en tiempo real.</li>
+                        <li>Reducción de errores.</li>
+                        <li>Mejor toma de decisiones.</li>
+                        <li>Mayor flexibilidad productiva.</li>
+                    </ul>
+                </div>
+
+                <div class="bloque">
+                    <h3>⚠ Desafíos</h3>
+
+                    <ul>
+                        <li>Inversión tecnológica.</li>
+                        <li>Capacitación del personal.</li>
+                        <li>Protección de la información.</li>
+                        <li>Ciberseguridad.</li>
+                        <li>Adaptación organizacional.</li>
+                        <li>Actualización constante.</li>
+                        <li>Integración de nuevas tecnologías.</li>
+                        <li>Cambio de cultura empresarial.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         CONCLUSIÓN
+    ======================================== -->
+
+    <section class="conclusion">
+        <div class="contenedor">
+
+            <h2>Construyendo el Futuro</h2>
+
+            <p>
+                La Industria 4.0 no consiste únicamente en
+                incorporar nuevas tecnologías, sino en transformar
+                la manera en que las organizaciones diseñan,
+                producen, administran y mejoran sus procesos.
+
+                Para la Ingeniería Industrial representa una
+                oportunidad para desarrollar sistemas productivos
+                más eficientes, inteligentes, flexibles y competitivos.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- ========================================
+         CONTACTO
+    ======================================== -->
+
+    <section id="contacto">
+        <div class="contenedor">
+
+            <div class="titulo-seccion">
+                <span>Contacto</span>
+                <h2>Industria 4.0</h2>
+
+                <p>
+                    Innovación hoy, industria del mañana.
+                </p>
+            </div>
+
+            <div class="contacto-datos">
+
+                <div class="contacto-item">
+                    <strong>📞 Teléfono</strong>
+                    <br>
+                    <a href="tel:+50250203686">
+                        +502 5020 3686
+                    </a>
+                </div>
+
+                <div class="contacto-item">
+                    <strong>✉ Correo electrónico</strong>
+                    <br>
+                    <a href="mailto:byronatareno19@gmail.com">
+                        byronatareno19@gmail.com
+                    </a>
+                </div>
+
+                <div class="contacto-item">
+                    <strong>📍 Ubicación</strong>
+                    <br>
+                    Guatemala
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         PIE DE PÁGINA
+    ======================================== -->
+
+    <footer>
+
+        <img
+            src="img/logo-industria-4.png"
+            alt="Logo Industria 4.0"
+        >
+
+        <p>Industria 4.0 | Ingeniería Industrial</p>
+
+        <p>
+            © <span id="anio"></span>
+            Todos los derechos reservados.
+        </p>
+
+    </footer>
+
+    <a
+        href="#inicio"
+        class="subir"
+        title="Volver arriba"
+        aria-label="Volver arriba">
+        ↑
+    </a>
+
+    <!-- ========================================
+         JAVASCRIPT
+    ======================================== -->
+
+    <script>
+
+        /* ====================================
+           INFORMACIÓN DE LAS SEIS TECNOLOGÍAS
+        ==================================== */
+
+        const tecnologias = [
+
+            {
+                titulo: "Inteligencia Artificial",
+                imagen: "img/inteligencia-artificial.png",
+
+                resumen:
+                    "Sistemas capaces de analizar información y realizar tareas inteligentes.",
+
+                descripcion:
+                    "La Inteligencia Artificial permite que los sistemas informáticos procesen grandes cantidades de información, identifiquen patrones y generen respuestas o decisiones basadas en los datos obtenidos.",
+
+                aplicacion:
+                    "En la industria se utiliza para control de calidad, planificación de la producción, detección de anomalías, mantenimiento predictivo, automatización y optimización de procesos.",
+
+                importancia:
+                    "Permite tomar decisiones más rápidas y precisas, aumentando la eficiencia y reduciendo errores dentro de los procesos industriales."
+            },
+
+            {
+                titulo: "Internet de las Cosas (IoT)",
+                imagen: "img/iot.png",
+
+                resumen:
+                    "Conecta máquinas, sensores y dispositivos mediante redes digitales.",
+
+                descripcion:
+                    "El Internet de las Cosas permite conectar objetos físicos, máquinas, sensores y equipos para recopilar e intercambiar información mediante redes digitales.",
+
+                aplicacion:
+                    "Los sensores instalados en equipos industriales pueden transmitir información sobre temperatura, presión, velocidad, consumo energético y funcionamiento de las máquinas.",
+
+                importancia:
+                    "Hace posible supervisar los procesos industriales en tiempo real y constituye una de las principales bases de las fábricas inteligentes."
+            },
+
+            {
+                titulo: "Robótica Industrial",
+                imagen: "img/robotica-industrial.png",
+
+                resumen:
+                    "Automatización de actividades industriales mediante sistemas robóticos.",
+
+                descripcion:
+                    "La robótica industrial utiliza máquinas programables capaces de ejecutar actividades repetitivas, precisas o de alto riesgo dentro de los procesos productivos.",
+
+                aplicacion:
+                    "Los robots industriales realizan actividades como ensamblaje, soldadura, pintura, manipulación de materiales, empaque e inspección.",
+
+                importancia:
+                    "Mejora la productividad, precisión y seguridad, además de reducir errores humanos en actividades repetitivas."
+            },
+
+            {
+                titulo: "Big Data",
+                imagen: "img/bigdata.png",
+
+                resumen:
+                    "Análisis de grandes cantidades de información para mejorar las decisiones.",
+
+                descripcion:
+                    "Big Data consiste en almacenar, procesar y analizar grandes cantidades de datos generados por máquinas, sensores, sistemas empresariales y procesos industriales.",
+
+                aplicacion:
+                    "Permite estudiar información relacionada con producción, calidad, consumo de recursos, comportamiento de equipos, inventarios y tendencias operativas.",
+
+                importancia:
+                    "Convierte grandes volúmenes de información en conocimiento útil para mejorar la planificación y la toma de decisiones."
+            },
+
+            {
+                titulo: "Computación en la Nube",
+                imagen: "img/nube.png",
+
+                resumen:
+                    "Almacenamiento y procesamiento de información mediante servicios digitales.",
+
+                descripcion:
+                    "La computación en la nube permite almacenar, procesar y consultar información mediante servidores conectados a Internet, reduciendo la dependencia de equipos locales.",
+
+                aplicacion:
+                    "Las empresas pueden almacenar información de producción, compartir datos entre departamentos y acceder a plataformas industriales desde diferentes ubicaciones.",
+
+                importancia:
+                    "Facilita la conectividad, colaboración, escalabilidad y disponibilidad de la información dentro de las organizaciones."
+            },
+
+            {
+                titulo: "Impresión 3D",
+                imagen: "img/impresion-3d.png",
+
+                resumen:
+                    "Fabricación de objetos mediante capas sucesivas de material.",
+
+                descripcion:
+                    "La impresión 3D, también conocida como fabricación aditiva, permite producir piezas físicas a partir de modelos digitales mediante la colocación sucesiva de capas de material.",
+
+                aplicacion:
+                    "Se utiliza para fabricar prototipos, herramientas, repuestos, componentes personalizados y piezas industriales con geometrías complejas.",
+
+                importancia:
+                    "Reduce los tiempos de desarrollo, facilita la personalización y permite fabricar prototipos rápidamente antes de iniciar una producción a gran escala."
+            }
+
+        ];
+
+        /* ====================================
+           TARJETAS DE TECNOLOGÍAS
+        ==================================== */
+
+        const contenedorTecnologias =
+            document.getElementById("contenedorTecnologias");
+
+        let tecnologiaActual = 0;
+
+        function crearTarjetas(lista) {
+
+            contenedorTecnologias.innerHTML = "";
+
+            lista.forEach(tecnologia => {
+
+                const indice = tecnologias.indexOf(tecnologia);
+
+                const tarjeta = document.createElement("button");
+                tarjeta.type = "button";
+                tarjeta.className = "tarjeta-tecnologia";
+                tarjeta.dataset.indice = indice;
+
+                tarjeta.innerHTML = `
+                    <img
+                        src="${tecnologia.imagen}"
+                        alt="${tecnologia.titulo}"
+                    >
+
+                    <div class="tarjeta-contenido">
+                        <span class="numero">
+                            TECNOLOGÍA ${String(indice + 1).padStart(2, "0")}
+                        </span>
+
+                        <h3>${tecnologia.titulo}</h3>
+                        <p>${tecnologia.resumen}</p>
+                    </div>
+                `;
+
+                tarjeta.addEventListener("click", () => {
+                    mostrarTecnologia(indice, true);
+                });
+
+                contenedorTecnologias.appendChild(tarjeta);
+
+            });
+
+            actualizarTarjetaActiva();
+        }
+
+        function actualizarTarjetaActiva() {
+
+            document.querySelectorAll(".tarjeta-tecnologia")
+                .forEach(tarjeta => {
+
+                    const activa =
+                        Number(tarjeta.dataset.indice) === tecnologiaActual;
+
+                    tarjeta.classList.toggle("activa", activa);
+                    tarjeta.setAttribute("aria-pressed", String(activa));
+
+                });
+        }
+
+        function mostrarTecnologia(indice, desplazar = false) {
+
+            tecnologiaActual = indice;
+
+            const tecnologia = tecnologias[indice];
+
+            document.getElementById("tituloTecnologia")
+                .textContent = tecnologia.titulo;
+
+            document.getElementById("indicadorTecnologia")
+                .textContent =
+                    "TECNOLOGÍA " + String(indice + 1).padStart(2, "0");
+
+            const imagen = document.getElementById("imagenPrincipal");
+            imagen.src = tecnologia.imagen;
+            imagen.alt = tecnologia.titulo;
+
+            document.getElementById("descripcionTecnologia")
+                .textContent = tecnologia.descripcion;
+
+            document.getElementById("aplicacionTecnologia")
+                .textContent = tecnologia.aplicacion;
+
+            document.getElementById("importanciaTecnologia")
+                .textContent = tecnologia.importancia;
+
+            actualizarTarjetaActiva();
+
+            if (desplazar) {
+                document.getElementById("detalleTecnologia")
+                    .scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+            }
+        }
+
+        document.getElementById("tecnologiaAnterior")
+            .addEventListener("click", () => {
+
+                const anterior =
+                    (tecnologiaActual - 1 + tecnologias.length)
+                    % tecnologias.length;
+
+                mostrarTecnologia(anterior);
+            });
+
+        document.getElementById("tecnologiaSiguiente")
+            .addEventListener("click", () => {
+
+                const siguiente =
+                    (tecnologiaActual + 1) % tecnologias.length;
+
+                mostrarTecnologia(siguiente);
+            });
+
+        document.getElementById("buscarTecnologia")
+            .addEventListener("input", function() {
+
+                const texto = this.value.toLowerCase().trim();
+
+                const resultados = tecnologias.filter(tecnologia =>
+                    tecnologia.titulo.toLowerCase().includes(texto) ||
+                    tecnologia.resumen.toLowerCase().includes(texto)
+                );
+
+                crearTarjetas(resultados);
+            });
+
+        crearTarjetas(tecnologias);
+        mostrarTecnologia(0);
+
+        /* ====================================
+           INFORMACIÓN DE LAS APLICACIONES
+        ==================================== */
+
+        const informacionAplicaciones = {
+
+            fabricas: {
+                titulo: "Fábricas Inteligentes",
+                imagen: "img/fabricas-inteligentes.png",
+
+                descripcion:
+                    "Las fábricas inteligentes son instalaciones industriales que integran máquinas, sensores, robots y sistemas digitales para supervisar y optimizar los procesos productivos.",
+
+                ejemplos:
+                    "Por ejemplo, una planta de producción puede utilizar sensores para conocer la cantidad de productos fabricados, robots para realizar ensamblajes y sistemas informáticos para controlar la calidad en tiempo real.",
+
+                beneficios:
+                    "Mayor productividad, reducción de desperdicios, mejor control de calidad, disminución de errores y optimización de los recursos."
+            },
+
+            logistica: {
+                titulo: "Logística Inteligente",
+                imagen: "img/logistica-inteligente.png",
+
+                descripcion:
+                    "La logística inteligente incorpora tecnologías digitales para administrar inventarios, almacenamiento, distribución y transporte de productos.",
+
+                ejemplos:
+                    "Una empresa puede utilizar códigos de barras, sensores, sistemas de inventario y rastreo GPS para conocer la ubicación de mercancías, controlar existencias y organizar rutas de distribución.",
+
+                beneficios:
+                    "Reducción de costos logísticos, mayor control de inventarios, entregas más eficientes, menos pérdidas y mejor planificación."
+            },
+
+            mantenimiento: {
+                titulo: "Mantenimiento Predictivo",
+                imagen: "img/mantenimiento-predictivo.png",
+
+                descripcion:
+                    "El mantenimiento predictivo consiste en analizar el estado de las máquinas mediante sensores y datos para detectar señales de posibles fallas.",
+
+                ejemplos:
+                    "En una planta industrial pueden instalarse sensores de temperatura y vibración en motores. Cuando los valores presentan comportamientos anormales, el sistema puede advertir sobre una posible avería.",
+
+                beneficios:
+                    "Disminución de paradas inesperadas, reducción de costos de reparación, mayor vida útil de los equipos y mejor planificación del mantenimiento."
+            }
+
+        };
+
+        /* ====================================
+           ABRIR Y CERRAR VENTANA
+        ==================================== */
+
+        const modal = document.getElementById("modalAplicacion");
+        const botonCerrar = document.getElementById("cerrarModal");
+
+        let elementoAnteriorModal = null;
+
+        function abrirAplicacion(tipo) {
+
+            const datos = informacionAplicaciones[tipo];
+
+            if (!datos) return;
+
+            elementoAnteriorModal = document.activeElement;
+
+            document.getElementById("modalTitulo")
+                .textContent = datos.titulo;
+
+            const imagen = document.getElementById("modalImagen");
+            imagen.src = datos.imagen;
+            imagen.alt = datos.titulo;
+
+            document.getElementById("modalDescripcion")
+                .textContent = datos.descripcion;
+
+            document.getElementById("modalEjemplos")
+                .textContent = datos.ejemplos;
+
+            document.getElementById("modalBeneficios")
+                .textContent = datos.beneficios;
+
+            modal.inert = false;
+            modal.classList.add("abierto");
+            modal.setAttribute("aria-hidden", "false");
+
+            document.body.style.overflow = "hidden";
+
+            botonCerrar.focus();
+        }
+
+        function cerrarAplicacion() {
+
+            if (!modal.classList.contains("abierto")) return;
+
+            modal.classList.remove("abierto");
+
+            if (elementoAnteriorModal) {
+                elementoAnteriorModal.focus();
+            }
+
+            modal.setAttribute("aria-hidden", "true");
+            modal.inert = true;
+
+            document.body.style.overflow = "";
+        }
+
+        /* CLIC EN LAS TARJETAS */
+
+        document.querySelectorAll("[data-aplicacion]")
+            .forEach(tarjeta => {
+
+                tarjeta.addEventListener("click", () => {
+                    abrirAplicacion(tarjeta.dataset.aplicacion);
+                });
+
+            });
+
+        /* BOTÓN CERRAR */
+
+        botonCerrar.addEventListener("click", cerrarAplicacion);
+
+        /* CERRAR AL HACER CLIC EN EL FONDO */
+
+        modal.addEventListener("click", event => {
+
+            if (event.target === modal) {
+                cerrarAplicacion();
+            }
+
+        });
+
+        /* CERRAR CON ESCAPE Y CONTROLAR TABULACIÓN */
+
+        document.addEventListener("keydown", event => {
+
+            if (!modal.classList.contains("abierto")) return;
+
+            if (event.key === "Escape") {
+                cerrarAplicacion();
+                return;
+            }
+
+            if (event.key === "Tab") {
+
+                const elementos = Array.from(
+                    modal.querySelectorAll(
+                        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                    )
+                ).filter(elemento => !elemento.disabled);
+
+                if (elementos.length === 0) return;
+
+                const primero = elementos[0];
+                const ultimo = elementos[elementos.length - 1];
+
+                if (event.shiftKey && document.activeElement === primero) {
+                    event.preventDefault();
+                    ultimo.focus();
+                } else if (
+                    !event.shiftKey &&
+                    document.activeElement === ultimo
+                ) {
+                    event.preventDefault();
+                    primero.focus();
+                }
+            }
+
+        });
+
+        /* ====================================
+           GRÁFICA DE TECNOLOGÍAS
+        ==================================== */
+
+        const canvasGrafica =
+            document.getElementById("graficaIndustria");
+
+        if (typeof Chart !== "undefined") {
+
+            new Chart(canvasGrafica, {
+
+                type: "doughnut",
+
+                data: {
+                    labels: [
+                        "Inteligencia Artificial",
+                        "Internet de las Cosas",
+                        "Robótica Industrial",
+                        "Big Data",
+                        "Computación en la Nube",
+                        "Impresión 3D"
+                    ],
+
+                    datasets: [{
+                        data: [25, 20, 20, 15, 12, 8],
+
+                        backgroundColor: [
+                            "#071b32",
+                            "#00c8ff",
+                            "#123657",
+                            "#227ca8",
+                            "#65dfff",
+                            "#94a3b8"
+                        ],
+
+                        borderColor: "#ffffff",
+                        borderWidth: 3,
+                        hoverOffset: 15
+                    }]
+                },
+
+                options: {
+                    responsive: true,
+                    cutout: "55%",
+
+                    plugins: {
+                        legend: {
+                            position: "bottom",
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label +
+                                        ": " + context.raw + "%";
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+        } else {
+            canvasGrafica.replaceWith(
+                document.createTextNode(
+                    "La gráfica necesita conexión a Internet para cargar."
+                )
+            );
+        }
+
+        /* ====================================
+           AÑO AUTOMÁTICO
+        ==================================== */
+
+        document.getElementById("anio")
+            .textContent = new Date().getFullYear();
+
+    </script>
+
+</body>
+</html>
